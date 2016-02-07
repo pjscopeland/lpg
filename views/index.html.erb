@@ -1,0 +1,64 @@
+<head>
+  <link href="https://d2dy5irbmy4k6r.cloudfront.net/assets/green/public/application-05f16475a942ab4b7c792a43e40c3975.css" media="all" rel="stylesheet">
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('input').change(function(){
+        var chance = (
+          $('#game_bet_on_1').prop('checked') +
+          $('#game_bet_on_2').prop('checked') +
+          $('#game_bet_on_3').prop('checked') +
+          $('#game_bet_on_4').prop('checked') +
+          $('#game_bet_on_5').prop('checked') +
+          $('#game_bet_on_6').prop('checked')) / 6;
+        var ready_to_roll = $('#game_amount').val() && chance > 0 && chance < 1;
+        $('#game_roll_button').attr('disabled', !ready_to_roll);
+        $('#game_calc').toggle(ready_to_roll);
+        $('#game_chances').text(Math.round(100 * chance));
+        $('#game_payout').text(Math.round($('#game_amount').val() * (1 / chance - 1)));
+      }).change();
+    });
+  </script>
+</head>
+
+<h1>Roll to win!</h1>
+
+<p>
+  Hi <%= @name %>! You have <%= @points %> points, which you can bet on a game.
+</p>
+
+<form action="/play" method="post">
+  <div>
+    <label for="game_amount">How much would you like to bet?</label>
+    <span class="right">
+      <input id="game_amount" name="game[amount]" type="number" min="1" max="<%= @points %>">
+    </span>
+  </div>
+  <div>
+    <label>What numbers would you like to bet on?</label>
+    <input type="checkbox" id="game_bet_on_1" name="game[bet_on][1]">
+    <label for="game_bet_on_1">1</label>
+    <input type="checkbox" id="game_bet_on_2" name="game[bet_on][2]">
+    <label for="game_bet_on_2">2</label>
+    <input type="checkbox" id="game_bet_on_3" name="game[bet_on][3]">
+    <label for="game_bet_on_3">3</label>
+    <input type="checkbox" id="game_bet_on_4" name="game[bet_on][4]">
+    <label for="game_bet_on_4">4</label>
+    <input type="checkbox" id="game_bet_on_5" name="game[bet_on][5]">
+    <label for="game_bet_on_5">5</label>
+    <input type="checkbox" id="game_bet_on_6" name="game[bet_on][6]">
+    <label for="game_bet_on_6">6</label>
+  </div>
+  <div id="game_calc" class="hidden">
+    Good choice! You have a <span id="game_chances">0</span>% chance of winning <span id="game_payout">Infinity</span> more points.
+  </div>
+  <div>
+    <input id="game_roll_button" type="submit" value="Roll!" disabled="disabled">
+  </div>
+</form>
+
+By the way, we've invited you to this site because you don't appear to be using your account very much.
+
+Were you aware that you can get Fly Buys points from BNZ, Z, New World, and a whole lot of other places?
+
+You can check out the rewards you can get right here on flybuys.co.nz too.
