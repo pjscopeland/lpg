@@ -1,6 +1,4 @@
 <head>
-  <link href="https://d2dy5irbmy4k6r.cloudfront.net/assets/green/public/application-05f16475a942ab4b7c792a43e40c3975.css" media="all" rel="stylesheet">
-  <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.js"></script>
   <script type="text/javascript">
     $(document).ready(function(){
       $('input').change(function(){
@@ -24,14 +22,14 @@
 <h1>Roll to win!</h1>
 
 <p>
-  Hi <%= @name %>! You have <%= @points %> points, which you can bet on a game.
+  Hi <%= current_user['name'] %>! You have <%= current_user['points'] %> points, which you can bet on a game.
 </p>
 
 <form action="/play" method="post">
   <div>
     <label for="game_amount">How much would you like to bet?</label>
     <span class="right">
-      <input id="game_amount" name="game[amount]" type="number" min="1" max="<%= @points %>">
+      <input id="game_amount" name="game[amount]" type="number" min="1" max="<%= current_user['points'] %>">
     </span>
   </div>
   <div>
@@ -56,8 +54,6 @@
     <input id="game_roll_button" type="submit" value="Roll!" disabled="disabled">
   </div>
 </form>
-
-By the way, we've invited you to this site because you don't appear to be using your account very much.
 
 Were you aware that you can get Fly Buys points from BNZ, Z, New World, and a whole lot of other places?
 
