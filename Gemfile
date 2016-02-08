@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 
 gem 'sinatra'
+gem 'foreman'
+gem 'curb'
 
 group :development, :test do
   gem 'hirb'
