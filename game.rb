@@ -6,7 +6,7 @@ require 'bcrypt'
 
 set port: 4567
 # This is where the account server is
-set account_server_root: 'localhost:4568'
+set account_server_root: "#{ENV['ACCOUNT_HOST']}:#{ENV['ACCOUNT_PORT']}"
 
 enable :sessions
 set session_secret: ENV['SESSION_SECRET']

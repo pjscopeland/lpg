@@ -1,8 +1,8 @@
 require 'sinatra'
 require 'json'
 
-set bind: 'localhost', # Default is 0.0.0.0, but we don't want connections from any other server in this case
-    port: 4568
+set bind: ENV['ACCOUNT_HOST'], # Default is 0.0.0.0, but we don't want connections from any other server in this case
+    port: ENV['ACCOUNT_PORT']
 set members: [
   {id: 1, name: 'Patrick', card: '6014355731786694', points: 154},
   {id: 2, name: 'Sam',     card: '6014355731755590', points: 597},
