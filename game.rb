@@ -4,9 +4,8 @@ require 'curb'
 require 'json'
 require 'bcrypt'
 
-set port: 4567
 # This is where the account server is
-set account_server_root: "#{ENV['ACCOUNT_HOST']}:#{ENV['ACCOUNT_PORT']}"
+set account_server_root: "#{ENV['ACCOUNT_SERVER']}"
 
 enable :sessions
 set session_secret: ENV['SESSION_SECRET']
