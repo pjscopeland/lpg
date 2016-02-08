@@ -4,6 +4,7 @@ require 'curb'
 require 'json'
 
 set port: 4567
+# This is where the account server is
 set account_server_root: 'localhost:4568'
 
 enable :sessions
@@ -28,6 +29,7 @@ get '/' do
   end
 end
 
+# Validate card on the account server. Set the current_user on the session on success
 post '/login' do
   http = Curl.post("#{settings.account_server_root}/members/#{params[:id]}/validate", params)
   if http.status == '200 OK'
@@ -36,23 +38,33 @@ post '/login' do
   redirect to('/')
 end
 
+# Clear the current_user and return to the root page
 get '/logout' do
   self.current_user = nil
   redirect to('/')
 end
 
+# Play the game.
 post '/play' do
-  roll = rand(6) + 1
+  # The amount bet by the user
   amount = params['game']['amount'].to_i
+  # The numbers the user bet on
   bets = params['game']['bet_on'].keys.map(&:to_i)
+  # The odds of the user winning. Rational#to_s comes up as 'x/y' and it's more accurate
   odds = Rational(bets.count, 6)
-  gain = (amount / odds).to_i - amount
+  # The net amount the user stands to gain
+  payout = (amount / odds).to_i - amount
+  # The number the dice actually came up with
+  roll = rand(6) + 1
+  # Did the user win?
   @success = bets.include? roll
+  # Credit or debit the user's account
   if @success
-    http = Curl.post("#{settings.account_server_root}/members/#{current_user['id']}/credit", amount: gain)
+    http = Curl.post("#{settings.account_server_root}/members/#{current_user['id']}/credit", amount: payout)
   else
     http = Curl.post("#{settings.account_server_root}/members/#{current_user['id']}/debit", amount: amount)
   end
+  # And reload their balance
   self.current_user = JSON.parse(http.body_str)
   erb :'result.html', layout: :'layout.html'
 end

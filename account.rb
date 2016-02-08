@@ -25,27 +25,33 @@ def member
 end
 
 post '/members/:id/validate' do
-  p params
+  # The correct card number has to be entered
   if member[:card] == params[:card]
-    p member.to_json
+    member.to_json
   else
     status 401
-    p nil.to_json
+    nil
   end
 end
 
-get '/members/:id' do
-  p member.to_json
-end
-
+# Increase a member's account (amount must be over 0)
 post '/members/:id/credit' do
-  member[:points] += amount
-  p member.to_json
+  if amount > 0
+    member[:points] += amount
+  else
+    status 400
+  end
+  member.to_json
 end
 
+# Decrease account
 post '/members/:id/debit' do
-  member[:points] -= amount
-  p member.to_json
+  if amount > 0
+    member[:points] -= amount
+  else
+    status 400
+  end
+  member.to_json
 end
 
 

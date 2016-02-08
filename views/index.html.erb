@@ -2,6 +2,7 @@
   <script type="text/javascript">
     $(document).ready(function(){
       $('input').change(function(){
+        // You have <options checked> chances in six.
         var chance = (
           $('#game_bet_on_1').prop('checked') +
           $('#game_bet_on_2').prop('checked') +
@@ -9,10 +10,15 @@
           $('#game_bet_on_4').prop('checked') +
           $('#game_bet_on_5').prop('checked') +
           $('#game_bet_on_6').prop('checked')) / 6;
-        var ready_to_roll = $('#game_amount').val() && chance > 0 && chance < 1;
+        // You're ready to roll if you've entered an amount, and you've selected some but not all of the options.
+        var ready_to_roll = !!$('#game_amount').val() && chance > 0 && chance < 1;
+        // Enable the button if you're ready to roll.
         $('#game_roll_button').attr('disabled', !ready_to_roll);
+        // Show the odds if you're ready to roll.
         $('#game_calc').toggle(ready_to_roll);
+        // Calculate your odds
         $('#game_chances').text(Math.round(100 * chance));
+        // And how much you'll win. 
         $('#game_payout').text(Math.round($('#game_amount').val() * (1 / chance - 1)));
       }).change();
     });

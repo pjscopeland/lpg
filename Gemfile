@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-gem 'sinatra'
-gem 'foreman'
-gem 'curb'
+gem 'sinatra' # Server gem - lightweight compared to Rails
+gem 'foreman' # Allows easy running of several processes at once
+gem 'curb'    # Make HTTP requests from Ruby code
 
 group :development, :test do
   gem 'hirb'
