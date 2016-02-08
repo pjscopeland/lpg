@@ -25,42 +25,53 @@
   </script>
 </head>
 
-<h1>Roll to win!</h1>
+<h1>Roll to win with Fly Buys!</h1>
 
 <p>
-  Hi <%= current_user['name'] %>! You have <%= current_user['points'] %> points, which you can bet on the roll of a die.
+  <strong>Hi <%= current_user['name'] %>!</strong> Choose your numbers and roll the dice. If one of your numbers comes up, you win - and the more numbers you choose, the higher your chances of winning! You have <%= current_user['points'] %> points.
+</p>
+
+<p>
 </p>
 
 <form action="/play" method="post">
-  <div>
-    <label for="game_amount">How much would you like to bet?</label>
-    <span class="right">
+  <div class="row">
+    <div class="col-xs-7 col-md-5">
+      <label for="game_amount">How many points would you like to bet?</label>
       <input id="game_amount" name="game[amount]" type="number" min="1" max="<%= current_user['points'] %>">
-    </span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-7 col-md-5">
+      <label>What numbers would you like to bet on?</label>
+      <div class="col-xs-6">
+        <input type="checkbox" id="game_bet_on_1" name="game[bet_on][1]">
+        <label for="game_bet_on_1">1</label>
+        <input type="checkbox" id="game_bet_on_2" name="game[bet_on][2]">
+        <label for="game_bet_on_2">2</label>
+        <input type="checkbox" id="game_bet_on_3" name="game[bet_on][3]">
+        <label for="game_bet_on_3">3</label>
+      </div>
+      <div class="col-xs-6">
+        <input type="checkbox" id="game_bet_on_4" name="game[bet_on][4]">
+        <label for="game_bet_on_4">4</label>
+        <input type="checkbox" id="game_bet_on_5" name="game[bet_on][5]">
+        <label for="game_bet_on_5">5</label>
+        <input type="checkbox" id="game_bet_on_6" name="game[bet_on][6]">
+        <label for="game_bet_on_6">6</label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div id="game_calc" class="hidden col-xs-12">
+      Good choice! You have a <span id="game_chances">0</span>% chance of winning <span id="game_payout">Infinity</span> more points.
+    </div>
   </div>
   <div>
-    <label>What numbers would you like to bet on?</label>
-    <input type="checkbox" id="game_bet_on_1" name="game[bet_on][1]">
-    <label for="game_bet_on_1">1</label>
-    <input type="checkbox" id="game_bet_on_2" name="game[bet_on][2]">
-    <label for="game_bet_on_2">2</label>
-    <input type="checkbox" id="game_bet_on_3" name="game[bet_on][3]">
-    <label for="game_bet_on_3">3</label>
-    <input type="checkbox" id="game_bet_on_4" name="game[bet_on][4]">
-    <label for="game_bet_on_4">4</label>
-    <input type="checkbox" id="game_bet_on_5" name="game[bet_on][5]">
-    <label for="game_bet_on_5">5</label>
-    <input type="checkbox" id="game_bet_on_6" name="game[bet_on][6]">
-    <label for="game_bet_on_6">6</label>
-  </div>
-  <div id="game_calc" class="hidden">
-    Good choice! You have a <span id="game_chances">0</span>% chance of winning <span id="game_payout">Infinity</span> more points.
-  </div>
-  <div>
-    <input id="game_roll_button" type="submit" value="Roll!" disabled="disabled">
+    <input id="game_roll_button" class="action-account-footer" type="submit" value="Roll!" disabled="disabled">
   </div>
 </form>
 
-Were you aware that you can get Fly Buys points from BNZ, Z, New World, and a whole lot of other places?
+Are you aware that you can get Fly Buys points from BNZ, Z, New World, and a whole lot of other places?
 
-You can check out the rewards you can get right here on flybuys.co.nz too.
+You can check out the rewards you can get right here at <a href="http://flybuys.co.nz">flybuys.co.nz</a>.
