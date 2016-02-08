@@ -2,6 +2,8 @@
   <%= @success ? 'Congratulations, you won!' : 'Sorry, you lost.' %>
 </h1>
 
+<p>You bet <%= @amount %> on <%= to_sentence(@bets) %>, and the die showed a <%= @roll %>.</p>
+
 <p>Your balance is now <%= current_user['points'] %>. Would you like to play again?</p>
 
 <p><a href="/">Play again!</a> - <a href="http://flybuys.co.nz">No thanks.</a></p>

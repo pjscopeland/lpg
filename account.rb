@@ -1,12 +1,13 @@
 require 'sinatra'
 require 'json'
 
-set port: 4568
-set members: {
-  1 => {id: 1, name: 'Patrick', card: '6014355731786694', points: 154},
-  2 => {id: 2, name: 'Sam',     card: '6014355731755590', points: 597},
-  3 => {id: 3, name: 'Evie',    card: '6014355731725686', points: 4512},
-}
+set bind: 'localhost', # Default is 0.0.0.0, but we don't want connections from any other server in this case
+    port: 4568
+set members: [
+  {id: 1, name: 'Patrick', card: '6014355731786694', points: 154},
+  {id: 2, name: 'Sam',     card: '6014355731755590', points: 597},
+  {id: 3, name: 'Evie',    card: '6014355731725686', points: 4512},
+]
 
 def members
   settings.members
@@ -21,13 +22,14 @@ def amount
 end
 
 def member
-  members[id]
+  members.select { |m| m[:id] == id }.first
 end
 
-post '/members/:id/validate' do
+post '/members/validate' do
   # The correct card number has to be entered
-  if member[:card] == params[:card]
-    member.to_json
+  candidates = members.select { |m| m[:name].downcase == params[:name].downcase && m[:card] == params[:card] }
+  if candidates.one?
+    candidates.first.reject { |k, v| k == :card }.to_json
   else
     status 401
     nil
@@ -41,7 +43,7 @@ post '/members/:id/credit' do
   else
     status 400
   end
-  member.to_json
+  member.reject { |k, v| k == :card }.to_json
 end
 
 # Decrease account
@@ -51,7 +53,7 @@ post '/members/:id/debit' do
   else
     status 400
   end
-  member.to_json
+  member.reject { |k, v| k == :card }.to_json
 end
 
 
